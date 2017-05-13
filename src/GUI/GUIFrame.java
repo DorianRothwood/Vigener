@@ -181,6 +181,11 @@ public class GUIFrame extends javax.swing.JFrame {
         });
 
         DecryptButton.setText("Decrypt");
+        DecryptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DecryptButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,6 +280,8 @@ public class GUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_keyFieldActionPerformed
 
     private void ManualButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManualButtonActionPerformed
+        originalTextArea.setText("");
+        encryptedTextArea.setText("");
         originalTextArea.setEditable(false);
         encryptedTextArea.setEditable(false);
         originalTextArea.setOpaque(false);
@@ -290,6 +297,8 @@ public class GUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_keyChangeButtonMouseClicked
 
     private void keyTableKeyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyTableKeyButtonActionPerformed
+        originalTextArea.setText("");
+        encryptedTextArea.setText("");
         if(!"Table Key".equals(keyTableKeyField.getText())) {
             keyTable.setKey(keyTableKeyField.getText());
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
@@ -297,6 +306,8 @@ public class GUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_keyTableKeyButtonActionPerformed
 
     private void AutomaticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutomaticButtonActionPerformed
+        originalTextArea.setText("");
+        encryptedTextArea.setText("");
         originalTextArea.setEditable(true);
         encryptedTextArea.setEditable(true);
         originalTextArea.setOpaque(true);
@@ -307,6 +318,8 @@ public class GUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AutomaticButtonActionPerformed
 
     private void keyChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyChangeButtonActionPerformed
+        originalTextArea.setText("");
+        encryptedTextArea.setText("");
         if(!"Key".equals(keyField.getText())) {
             keyTable.setHasKey(true);
             keyWindow.setKey(KeyTable.process(keyField.getText(),false));
@@ -336,6 +349,12 @@ public class GUIFrame extends javax.swing.JFrame {
             encryptedTextArea.setText(Vigener.Encrypter.encrypt(originalTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
         } // end if()
     }//GEN-LAST:event_EncryptButtonActionPerformed
+
+    private void DecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptButtonActionPerformed
+        if(!manual) {
+            originalTextArea.setText(Vigener.Decrypter.decrypt(encryptedTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
+        } // end if()
+    }//GEN-LAST:event_DecryptButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -25,7 +25,7 @@ public class TableKey extends JPanel {
     private String tableKey = Vigener.KeyTable.getKey(true);
     private boolean hasKey = false;
     private int yKey = 0;
-    private int xKey = 0;
+    private int xKey = -1;
     private boolean manual = true;
     
     
@@ -48,7 +48,7 @@ public class TableKey extends JPanel {
             g.setColor(new Color(255,255,150));
             g.fillRect(20, (yKey+1)*20, 520, 20);
         } // end if()
-        if((xKey != 0) && manual) {
+        if((xKey != -1) && manual) {
             g.setColor(new Color(128,128,255));
             g.fillRect((xKey+1)*20, 0, 20, 20);
             g.setColor(new Color(203,235,255));

@@ -5,7 +5,8 @@
  */
 package GUI;
 
-import Vigener.KeyTable;
+import Vigener.*;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -19,6 +20,8 @@ public class GUIFrame extends javax.swing.JFrame {
     public GUIFrame() {
         
         setFocusable(true);
+        manual = true;
+        isKeyPressed = false;
         initComponents();
         keyTable.requestFocusInWindow();
     }
@@ -79,6 +82,12 @@ public class GUIFrame extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 keyTableKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                keyTableKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                keyTableKeyTyped(evt);
+            }
         });
 
         javax.swing.GroupLayout keyTableLayout = new javax.swing.GroupLayout(keyTable);
@@ -93,6 +102,11 @@ public class GUIFrame extends javax.swing.JFrame {
         );
 
         keyWindow.setTableKey(keyTable);
+        keyWindow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                keyWindowMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout keyWindowLayout = new javax.swing.GroupLayout(keyWindow);
         keyWindow.setLayout(keyWindowLayout);
@@ -134,6 +148,7 @@ public class GUIFrame extends javax.swing.JFrame {
 
         originalTextArea.setEditable(false);
         originalTextArea.setColumns(20);
+        originalTextArea.setLineWrap(true);
         originalTextArea.setRows(5);
         originalTextArea.setOpaque(false);
         originalTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -149,6 +164,7 @@ public class GUIFrame extends javax.swing.JFrame {
 
         encryptedTextArea.setEditable(false);
         encryptedTextArea.setColumns(20);
+        encryptedTextArea.setLineWrap(true);
         encryptedTextArea.setRows(5);
         encryptedTextArea.setOpaque(false);
         encryptedTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -289,7 +305,7 @@ public class GUIFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void keyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyFieldActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_keyFieldActionPerformed
 
     private void ManualButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManualButtonActionPerformed
@@ -303,6 +319,7 @@ public class GUIFrame extends javax.swing.JFrame {
         keyWindow.setManual(true);
         this.manual = true;
         keyTable.requestFocusInWindow();
+        keyWindow.resetIterator();
     }//GEN-LAST:event_ManualButtonActionPerformed
 
     private void keyChangeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_keyChangeButtonMouseClicked
@@ -317,6 +334,7 @@ public class GUIFrame extends javax.swing.JFrame {
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
         } // end if()
         if(manual) keyTable.requestFocusInWindow();
+        keyWindow.resetIterator();
     }//GEN-LAST:event_keyTableKeyButtonActionPerformed
 
     private void AutomaticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutomaticButtonActionPerformed
@@ -329,6 +347,7 @@ public class GUIFrame extends javax.swing.JFrame {
         keyTable.setManual(false);
         keyWindow.setManual(false);
         this.manual = false;
+        keyWindow.resetIterator();
     }//GEN-LAST:event_AutomaticButtonActionPerformed
 
     private void keyChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyChangeButtonActionPerformed
@@ -340,18 +359,47 @@ public class GUIFrame extends javax.swing.JFrame {
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
         } // end if()
         if(manual) keyTable.requestFocusInWindow();
+        keyWindow.resetIterator();
     }//GEN-LAST:event_keyChangeButtonActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.out.println("rg");
+        
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        System.out.println("gr");
+       
     }//GEN-LAST:event_formKeyReleased
 
     private void keyTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTableKeyPressed
-        System.out.println("pressed");
+        if(manual && !isKeyPressed) {
+            
+            isKeyPressed = true;
+            
+            String key = KeyEvent.getKeyText(evt.getKeyCode());
+            System.out.println(key);
+            if(keyWindow.hasKey() && key.length() == 1 && Character.getType(key.charAt(0)) != Character.DECIMAL_DIGIT_NUMBER) {
+                
+                keyPressed = evt.getKeyCode();
+                
+                keyWindow.setArmed(true);
+                
+                int index = keyTable.getTableKey().toUpperCase().indexOf(key);
+                
+                keyTable.setXKey(index);
+                
+                e = key.charAt(0);
+                k = Character.toUpperCase(keyWindow.getCurrentKey());
+                
+            } else if(key.equals("Space")) {
+                originalTextArea.append(" ");
+                encryptedTextArea.append(" ");
+            } else if(key.equals("Backspace")) {
+                originalTextArea.setText(originalTextArea.getText().substring(0, originalTextArea.getText().length()-1));
+                encryptedTextArea.setText(encryptedTextArea.getText().substring(0, encryptedTextArea.getText().length()-1));
+            } else if(!shift && key.equals("Shift")) {
+                shift = true;
+            }// end if()
+        } // end if()
     }//GEN-LAST:event_keyTableKeyPressed
 
     private void keyTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_keyTableMouseClicked
@@ -379,6 +427,39 @@ public class GUIFrame extends javax.swing.JFrame {
     private void encryptedTextAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encryptedTextAreaMouseClicked
         if(manual) keyTable.requestFocusInWindow();
     }//GEN-LAST:event_encryptedTextAreaMouseClicked
+
+    private void keyWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_keyWindowMouseClicked
+        if(manual) keyTable.requestFocusInWindow();
+    }//GEN-LAST:event_keyWindowMouseClicked
+
+    private void keyTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTableKeyReleased
+        if(keyPressed == evt.getKeyCode()) {
+            
+            System.out.println("rg");
+            keyWindow.setArmed(false);
+            keyWindow.iterate();
+            keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
+            keyTable.setXKey(-1);
+            
+            isKeyPressed = false;
+            
+            if(shift) {
+            originalTextArea.append(Character.toString(e));
+            encryptedTextArea.append(Character.toString(Encrypter.encrypt(e, keyTable.getTableKey(), k)));
+            } else {
+                originalTextArea.append(Character.toString(e).toLowerCase());
+                encryptedTextArea.append(Character.toString(Encrypter.encrypt(e, keyTable.getTableKey(), k)).toLowerCase());
+            }
+        } else if(KeyEvent.getKeyText(evt.getKeyCode()).equals("Shift")) {
+            shift = false;
+        } else {
+            isKeyPressed = false;
+        }// end if()
+    }//GEN-LAST:event_keyTableKeyReleased
+
+    private void keyTableKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTableKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_keyTableKeyTyped
 
     /**
      * @param args the command line arguments
@@ -413,10 +494,13 @@ public class GUIFrame extends javax.swing.JFrame {
             new GUIFrame().setVisible(true);
         });
     }
-    private boolean manual = true;
+    private boolean manual;
     private boolean isKeyPressed;
     private boolean shift;
-    private Integer keyPressed;
+    private int keyPressed;
+    private char e;
+    private char k;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AutomaticButton;
     private javax.swing.JButton DecryptButton;

@@ -6,8 +6,6 @@
 package GUI;
 
 import Vigener.KeyTable;
-import java.awt.KeyEventDispatcher;
-import java.awt.event.KeyEvent;
 
 /**
  *
@@ -318,7 +316,7 @@ public class GUIFrame extends javax.swing.JFrame {
             keyTable.setKey(keyTableKeyField.getText());
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
         } // end if()
-        if(manual) keyTable.requestFocusInWindow();;
+        if(manual) keyTable.requestFocusInWindow();
     }//GEN-LAST:event_keyTableKeyButtonActionPerformed
 
     private void AutomaticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutomaticButtonActionPerformed
@@ -361,16 +359,16 @@ public class GUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_keyTableMouseClicked
 
     private void EncryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptButtonActionPerformed
-        if(!manual)
+        if(!manual && !originalTextArea.getText().equals(""))
             encryptedTextArea.setText(Vigener.Encrypter.encrypt(originalTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
-        else
+        else if(manual)
             keyTable.requestFocusInWindow();
     }//GEN-LAST:event_EncryptButtonActionPerformed
 
     private void DecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptButtonActionPerformed
-        if(!manual) 
+        if(!manual && !encryptedTextArea.getText().equals("")) 
             originalTextArea.setText(Vigener.Decrypter.decrypt(encryptedTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
-        else 
+        else if(manual)
             keyTable.requestFocusInWindow();
     }//GEN-LAST:event_DecryptButtonActionPerformed
 
@@ -411,11 +409,8 @@ public class GUIFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new GUIFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new GUIFrame().setVisible(true);
         });
     }
     private boolean manual = true;

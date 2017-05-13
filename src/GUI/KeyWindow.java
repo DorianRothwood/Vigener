@@ -23,6 +23,7 @@ public class KeyWindow extends JPanel {
     private char currentKey;
     private TableKey tK;
     private boolean manual = true;
+    private boolean armed = false;
     
     @Override
     public void paintComponent(Graphics g) {
@@ -30,7 +31,12 @@ public class KeyWindow extends JPanel {
         
         g.setColor(Color.white);
         g.fillRect(0, 0, 200, 20);
-        g.setColor(new Color(255,255,0));
+        
+        if(armed)
+            g.setColor(new Color(255,100,100));
+        else
+            g.setColor(new Color(255,255,0));
+        
         g.fillRect(0, 0, 20, 20);
         
         int keyIterator;
@@ -90,4 +96,14 @@ public class KeyWindow extends JPanel {
         this.manual = m;
         repaint();
     } // end setter method setManual(boolean)
+    public boolean hasKey() {
+        return hasKey;
+    } // end getter method hasKey()
+    public void setArmed(boolean a) {
+        this.armed = a;
+        repaint();
+    } // end setter method setArmed(boolean)
+    public void resetIterator() {
+        iterator = 0;
+    } // end setter method resetIterator()
 } // end class KeyWindow

@@ -6,6 +6,8 @@
 package GUI;
 
 import Vigener.KeyTable;
+import java.awt.KeyEventDispatcher;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -17,7 +19,10 @@ public class GUIFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public GUIFrame() {
+        
+        setFocusable(true);
         initComponents();
+        keyTable.requestFocusInWindow();
     }
 
     /**
@@ -133,6 +138,11 @@ public class GUIFrame extends javax.swing.JFrame {
         originalTextArea.setColumns(20);
         originalTextArea.setRows(5);
         originalTextArea.setOpaque(false);
+        originalTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                originalTextAreaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(originalTextArea);
 
         originalTextAreaLabel.setText("Original text");
@@ -143,6 +153,11 @@ public class GUIFrame extends javax.swing.JFrame {
         encryptedTextArea.setColumns(20);
         encryptedTextArea.setRows(5);
         encryptedTextArea.setOpaque(false);
+        encryptedTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                encryptedTextAreaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(encryptedTextArea);
 
         EncryptionMethodLabel.setText("Encryption method");
@@ -302,7 +317,8 @@ public class GUIFrame extends javax.swing.JFrame {
         if(!"Table Key".equals(keyTableKeyField.getText())) {
             keyTable.setKey(keyTableKeyField.getText());
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
-        }
+        } // end if()
+        if(manual) keyTable.requestFocusInWindow();;
     }//GEN-LAST:event_keyTableKeyButtonActionPerformed
 
     private void AutomaticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutomaticButtonActionPerformed
@@ -325,36 +341,46 @@ public class GUIFrame extends javax.swing.JFrame {
             keyWindow.setKey(KeyTable.process(keyField.getText(),false));
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));
         } // end if()
+        if(manual) keyTable.requestFocusInWindow();
     }//GEN-LAST:event_keyChangeButtonActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        
+        System.out.println("rg");
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        
+        System.out.println("gr");
     }//GEN-LAST:event_formKeyReleased
 
     private void keyTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTableKeyPressed
-        
+        System.out.println("pressed");
     }//GEN-LAST:event_keyTableKeyPressed
 
     private void keyTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_keyTableMouseClicked
         keyTable.requestFocusInWindow();
-        System.out.println("mouse");
     }//GEN-LAST:event_keyTableMouseClicked
 
     private void EncryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptButtonActionPerformed
-        if(!manual) {
+        if(!manual)
             encryptedTextArea.setText(Vigener.Encrypter.encrypt(originalTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
-        } // end if()
+        else
+            keyTable.requestFocusInWindow();
     }//GEN-LAST:event_EncryptButtonActionPerformed
 
     private void DecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptButtonActionPerformed
-        if(!manual) {
+        if(!manual) 
             originalTextArea.setText(Vigener.Decrypter.decrypt(encryptedTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
-        } // end if()
+        else 
+            keyTable.requestFocusInWindow();
     }//GEN-LAST:event_DecryptButtonActionPerformed
+
+    private void originalTextAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_originalTextAreaMouseClicked
+        if(manual) keyTable.requestFocusInWindow();
+    }//GEN-LAST:event_originalTextAreaMouseClicked
+
+    private void encryptedTextAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encryptedTextAreaMouseClicked
+        if(manual) keyTable.requestFocusInWindow();
+    }//GEN-LAST:event_encryptedTextAreaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -393,6 +419,9 @@ public class GUIFrame extends javax.swing.JFrame {
         });
     }
     private boolean manual = true;
+    private boolean isKeyPressed;
+    private boolean shift;
+    private Integer keyPressed;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AutomaticButton;
     private javax.swing.JButton DecryptButton;

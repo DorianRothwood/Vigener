@@ -235,6 +235,9 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="originalTextAreaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -262,6 +265,9 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="encryptedTextAreaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

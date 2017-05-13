@@ -14,6 +14,10 @@ import java.util.ArrayList;
  */
 public final class Decrypter {
     
+    public static String decrypt(String emsg ,String key) {
+        return decrypt(emsg, key, KeyTable.getKey(true));
+    } // end static method decrypt(String, String)
+    
     public static String decrypt(String emsg, String key, String tableKey) {
         
         StringBuilder b = new StringBuilder();

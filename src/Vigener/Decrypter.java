@@ -19,6 +19,7 @@ public final class Decrypter {
      * @param key encryption key of type {@code String}
      * @return decrypted message of type {@code String}
      * @author Michael Roth
+     * @deprecated 
      */
     public static String decrypt(String emsg, String key) {
         
@@ -48,7 +49,43 @@ public final class Decrypter {
         
         key = KeyTable.process(key, false, true);
         
+        byte charType;
+        
+        int j = 0;
+        
+        for(int i = 0; i < emsg.length(); i++) {
+            
+            char c = emsg.charAt(i);
+            
+            charType = (byte) Character.getType(c);
+            
+            if(charType != Character.LOWERCASE_LETTER && charType != Character.UPPERCASE_LETTER) {
+                b.append(c);
+            } else {
+                b.append(decrypt(c,key.charAt(j%key.length()),tableKey));
+                j++;
+            } // end if()
+        } // end for()
         
         return b.toString();
     } // end method decrypt(String,String,String)
+    public static char decrypt(char e, char k, String tableKey) {
+        
+        byte charType = (byte) Character.getType(e);
+        
+        if(charType != Character.LOWERCASE_LETTER && charType != Character.UPPERCASE_LETTER) return e;
+        
+        tableKey = KeyTable.getKey(tableKey, true);
+        
+        int index = tableKey.indexOf(Character.toString(k).toUpperCase());
+        
+        String shift = tableKey.substring(index).concat(tableKey.substring(0,index));
+        
+        index = shift.indexOf(Character.toString(e).toUpperCase());
+        
+        if(charType == Character.LOWERCASE_LETTER) 
+            return Character.toLowerCase(tableKey.charAt(index));
+        else
+            return Character.toUpperCase(tableKey.charAt(index));
+    } // end method decrypt(char, String, char)
 } // end class decrypter

@@ -1,4 +1,4 @@
-package Vigener;
+package Vigenere;
 
 import java.util.ArrayList;
 

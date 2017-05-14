@@ -5,7 +5,8 @@
  */
 package GUI;
 
-import Vigener.*;
+import Vigenere.Encrypter;
+import Vigenere.KeyTable;
 import java.awt.event.KeyEvent;
 
 /**
@@ -59,7 +60,7 @@ public class GUIFrame extends javax.swing.JFrame {
         DecryptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Vigener Encrypter");
+        setTitle("Vigenére cipher encryption tool");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setIconImages(null);
         setResizable(false);
@@ -408,14 +409,14 @@ public class GUIFrame extends javax.swing.JFrame {
 
     private void EncryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptButtonActionPerformed
         if(!manual && !originalTextArea.getText().equals(""))
-            encryptedTextArea.setText(Vigener.Encrypter.encrypt(originalTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
+            encryptedTextArea.setText(Vigenere.Encrypter.encrypt(originalTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
         else if(manual)
             keyTable.requestFocusInWindow();
     }//GEN-LAST:event_EncryptButtonActionPerformed
 
     private void DecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptButtonActionPerformed
         if(!manual && !encryptedTextArea.getText().equals("")) 
-            originalTextArea.setText(Vigener.Decrypter.decrypt(encryptedTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
+            originalTextArea.setText(Vigenere.Decrypter.decrypt(encryptedTextArea.getText(),keyWindow.getKey(),keyTable.getTableKey()));
         else if(manual)
             keyTable.requestFocusInWindow();
     }//GEN-LAST:event_DecryptButtonActionPerformed

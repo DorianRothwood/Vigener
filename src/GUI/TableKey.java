@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Vigener.KeyTable;
+import Vigenere.KeyTable;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class TableKey extends JPanel {
     
-    private String tableKey = Vigener.KeyTable.getKey(true);
+    private String tableKey = Vigenere.KeyTable.getKey(true);
     private boolean hasKey = false;
     private int yKey = 0;
     private int xKey = -1;
@@ -125,7 +125,7 @@ public class TableKey extends JPanel {
     } // end method updateKeys(Graphics)
     
     public void setKey(String key) {
-        this.tableKey = Vigener.KeyTable.getKey(key,true);
+        this.tableKey = Vigenere.KeyTable.getKey(key,true);
         repaint();
     } // end setter method setKey(String)
     public void setXKey(int i) {

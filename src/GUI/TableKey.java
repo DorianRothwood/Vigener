@@ -9,18 +9,14 @@ import Vigenere.KeyTable;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 /**
  *
  * @author Michael Roth
  */
-public class TableKey extends JPanel {
+public class TableKey extends JComponent {
     
     private String tableKey = Vigenere.KeyTable.getKey(true);
     private boolean hasKey = false;

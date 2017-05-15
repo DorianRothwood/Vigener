@@ -377,7 +377,6 @@ public class GUIFrame extends javax.swing.JFrame {
             isKeyPressed = true;
             
             String key = KeyEvent.getKeyText(evt.getKeyCode());
-            System.out.println(key);
             if(keyWindow.hasKey() && key.length() == 1 && Character.getType(key.charAt(0)) != Character.DECIMAL_DIGIT_NUMBER) {
                 
                 keyPressed = evt.getKeyCode();
@@ -436,7 +435,6 @@ public class GUIFrame extends javax.swing.JFrame {
     private void keyTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTableKeyReleased
         if(keyPressed == evt.getKeyCode()) {
             
-            System.out.println("rg");
             keyWindow.setArmed(false);
             keyWindow.iterate();
             keyTable.setYKey(keyTable.getTableKey().indexOf(Character.toString(keyWindow.getCurrentKey()).toUpperCase()));

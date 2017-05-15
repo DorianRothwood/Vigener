@@ -9,13 +9,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 /**
  *
  * @author Michael Roth
  */
-public class KeyWindow extends JPanel {
+public class KeyWindow extends JComponent {
     
     private String key = null;
     private boolean hasKey = false;

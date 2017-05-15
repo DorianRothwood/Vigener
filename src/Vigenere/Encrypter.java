@@ -1,7 +1,5 @@
 package Vigenere;
 
-import java.util.ArrayList;
-
 /**
  * this class is used for the encryption of the message using the Vigenére Square.
  *@since 1.0

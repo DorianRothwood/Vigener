@@ -5,8 +5,6 @@
  */
 package Vigenere;
 
-import java.util.ArrayList;
-
 /**
  * this class is used for Vigenére cypher decryption.
  * @see <a href = https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/864px-Vigen%C3%A8re_square_shading.svg.png>Vigenére Square using default "ABCD...Z" table key</a>

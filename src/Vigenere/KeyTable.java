@@ -43,7 +43,7 @@ public final class KeyTable {
         else key = DEFAULT_KEY.toLowerCase();
         
         for(int i = 0; i < key.length();i++) 
-            if((Character.getType(key.charAt(i)) == Character.UPPERCASE_LETTER) || (Character.getType(key.charAt(i)) == Character.LOWERCASE_LETTER) && !(arr.contains(key.charAt(i)))) 
+            if((key.charAt(i) >= 'A' && key.charAt(i) <= 'Z') || (key.charAt(i) >= 'a' && key.charAt(i) <= 'z') && !(arr.contains(key.charAt(i)))) 
                 arr.add(key.charAt(i));
         
         return arr;
@@ -160,7 +160,6 @@ public final class KeyTable {
      * @since 2.2
      */
     public static String process(String in,boolean spaces, boolean upperCase) {
-        if(upperCase) return process(in,spaces);
         StringBuilder s = new StringBuilder();
         for(char c : in.toLowerCase().toCharArray()) {
             
@@ -190,45 +189,30 @@ public final class KeyTable {
         return key;
     } // end method getKey(String, boolean)
     
-    /**
-     * this method is used to get the table key used in the encryption
-     * @param key a key of type {@code String} to be processed
-     * @param upperCase {@code boolean} value to determine the case of the table key
-     * @return table key of type {@code String}
-     * @author Michael Roth
-     * @since 2.2
-     */
-    public static String getKey(String k, boolean upperCase) {
+    public static String getKey(String key, boolean upperCase) {
         
-        // ensures the key is in a right format
-        String key = KeyTable.process(k,false);
+        ArrayList <Character> arr = new ArrayList();
+        if(upperCase) key = key.toUpperCase();
+        StringBuilder sB = new StringBuilder();
         
-        // instantiates a new StringBuilder
-        StringBuilder b = new StringBuilder();
+        for(int i = 0; i<key.length();i++) {
+            char c = key.charAt(i);
+            if((c > 64 && c < 91) && !(arr.contains(c))) {
+                arr.add(c);
+                sB.append(c);
+            } // end if
+        } // end for
         
-        // checks if the key variable is empty, if not, iterates the loop
-        while(!key.isEmpty()) {
-            
-            char c = key.charAt(0);
-            
-            // appends the first character in the key variable and deletes all other occurencs of that character
-            b.append(c);
-            key.replaceAll(Character.toString(c), "");
-            
-        } // end while()
+        if(arr.size() != 26) {
+            for(int i = 0; i < 26; i++) {
+                char c = (char) (i + 65);
+                if(!arr.contains(c)) {
+                    arr.add(c);
+                    sB.append(c);
+                } // end if()
+            } // end for
+        } // end if
         
-        // loops through the default key
-        for(int i = 0; i < DEFAULT_KEY.length(); i++) {
-            
-            // stores the current character in a variable and if it's not yet in the StringBuilder, appends it
-            char c = DEFAULT_KEY.charAt(i);
-            if(b.toString().contains(Character.toString(c))) {
-                b.append(c);
-            } // end if()
-        } // end for()
-        
-        // returns the String stored in the StringBuilder depending on the case
-        if(upperCase) return b.toString();
-        else return b.toString().toLowerCase();
+        return sB.toString();
     } // end method getKey(String, boolean)
 } // end class KeyTable

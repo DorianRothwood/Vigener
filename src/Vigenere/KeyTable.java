@@ -160,6 +160,7 @@ public final class KeyTable {
      * @since 2.2
      */
     public static String process(String in,boolean spaces, boolean upperCase) {
+        if(upperCase) return process(in,spaces);
         StringBuilder s = new StringBuilder();
         for(char c : in.toLowerCase().toCharArray()) {
             
